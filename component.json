@@ -1,0 +1,28 @@
+{
+  "name": "user-colors",
+  "repo": "goinstant/user-colors",
+  "description": "GoInstant component for assigning users a unique color",
+  "version": "1.0.0",
+  "keywords": [],
+
+  "dependencies": {
+    "lodash/lodash": "*",
+    "caolan/async": "*",
+    "goinstant/colors-common": "*"
+  },
+
+  "development": {
+    "visionmedia/mocha": "*"
+  },
+
+  "paths": [
+    "../common/"
+  ],
+
+  "main": "index.js",
+
+  "scripts": [
+    "index.js",
+    "lib/errors.js"
+  ]
+}

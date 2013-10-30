@@ -1,0 +1,27 @@
+{
+  "name": "goinstant-user-colors",
+  "main": "dist/user-colors.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/goinstant/user-colors",
+  "authors": [
+    "GoInstant",
+    "a salesforce.com company"
+  ],
+
+  "description": "The GoInstant User Colors library allows you to assign a unique color to each user in a GoInstant Room.",
+  "keywords": [
+    "GoInstant",
+    "widget",
+    "user-colors"
+  ],
+
+  "license": "BSD",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
+
