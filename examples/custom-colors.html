@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GoInstant: User Colors Example: custom-colors</title>
+
+    <script src="https://cdn.goinstant.net/v1/platform.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="../node_modules/lodash/lodash.js"></script>
+
+    <!-- Config -->
+    <script src="../config/config.js"></script>
+
+    <!-- Widget Example Page -->
+    <link rel="stylesheet" href="../node_modules/widget-examples/css/examples.css" />
+    <script src="../node_modules/widget-examples/js/template.js"></script>
+    <script src="../node_modules/widget-examples/js/examples.js"></script>
+
+    <!-- GoInstant Widget Build -->
+    <link rel="stylesheet" href="../build/build.css" />
+    <script src="../build/build.js"></script>
+  </head>
+  <body>
+
+    <script type="text/javascript">
+
+      // Define the example
+      function widgetTest(room) {
+
+        var UserColors = require('user-colors');
+
+        var options = {
+          room: room,
+          colors: ['#f00', '#0f0', '#00f']
+        };
+
+        var userColors = new UserColors(options);
+
+        userColors.choose(function(err, color) {
+          if (err) throw err;
+
+          $('#color').css('background-color', color).text(color);
+        });
+
+        $('#color_list').text(userColors.colors.join(', '));
+
+      }
+
+      // Load the example test page
+      $(document).ready(function() {
+
+        var config = {
+          name: 'User Colors',
+          desc: 'colors option set with custom colors',
+          test: widgetTest
+        };
+
+        var example = new Example(config);
+        example.load();
+      });
+
+    </script>
+
+    <div id="common"></div>
+
+    <div id="expected">
+      <p>
+      The expected behaviour of this page is as follows:
+      </p>
+      <ul>
+        <li>A <strong>color name</strong> should appear in the content div below</li>
+        <li>The color should be <strong>different</strong> for every user in the room.</li>
+        <li>The first three colors should be <strong>red</strong>, <strong>green</strong> and <strong>blue</strong>.</li>
+        <li>The fourth user and beyond should be <strong>grey</strong></li>
+        <li>If you refresh the page you should get the <strong>same</strong> color.</li>
+      </ul>
+    </div>
+
+    <div id="content">
+      Color chosen from: <span id="color_list"></span><br />
+      Color chosen: <span id="color"></span>
+    </div>
+  </body>
+</html>
