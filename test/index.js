@@ -1,6 +1,5 @@
 /*jshint browser:true, node: false*/
-/*global require*/
-
+/*global require, describe, it, beforeEach*/
 'use strict';
 
 window.goinstant = {
@@ -60,7 +59,9 @@ describe('User Colors Component', function() {
     fakeUser[USER_PROPERTY] = TAKEN_BY_USERS[0];
 
     fakeUserKey = createFakeKey('guest1');
-    fakeRoom.user = sinon.stub().yields(null, fakeUser, fakeUserKey);
+    fakeUserKey.get = sinon.stub().yields(null, fakeUser, {});
+    fakeRoom.self = sinon.stub().returns(fakeUserKey);
+
     fakeRoom._platform._user = fakeUser;
 
     fakeUsers = [
@@ -329,7 +330,7 @@ describe('User Colors Component', function() {
       });
 
       it('returns an error when failing to retrieve user', function(done) {
-        userColors.room.user = sinon.stub().yields(new Error());
+        fakeUserKey.get = sinon.stub().yields(new Error());
         userColors.choose(function(err, color) {
           assert.isDefined(err);
           assert.isUndefined(color);
