@@ -67,7 +67,7 @@ function UserColors(opts) {
   this.room = opts.room;
   this.colors = opts.colors;
 
-  _.bindAll(this, '_choose', '_getUser', '_getLockedColors', '_setColor',
+  _.bindAll(this, '_choose', '_getUserData', '_getLockedColors', '_setColor',
                   '_acquireColor');
 }
 
@@ -94,7 +94,7 @@ UserColors.prototype.choose = function(cb) {
   }
 
   var tasks = {
-    user: this._getUser,
+    user: this._getUserData,
     locked: this._getLockedColors
   };
 
@@ -117,8 +117,10 @@ UserColors.prototype._choose = function(err, results, cb) {
     return cb(err);
   }
 
-  this.user = results.user[0]; // First argument is the user.
-  this.userKey = results.user[1]; // Second argument is the user key.
+  // results.user == [userData, context]
+  this.user = results.user[0];
+
+  // results.locked == [locks, context] 
   this.locked = results.locked[0]; // First argument is the value.
 
   var self = this;
@@ -134,7 +136,7 @@ UserColors.prototype._choose = function(err, results, cb) {
     lockedToUser = '#' + lockedToUser;
   }
 
-  var userColor = this.user[colors.USER_PROPERTY];
+  var userColor = self.user[colors.USER_PROPERTY];
   if (userColor && lockedToUser === userColor &&
       _.contains(this.colors, userColor)) {
     // Valid color is already assigned to the user and locked to prevent other
@@ -182,8 +184,8 @@ UserColors.prototype._getLockedColors = function(cb) {
  * Returns the up-to-date user object for the local user.
  *
  */
-UserColors.prototype._getUser = function(cb) {
-  this.room.user(cb);
+UserColors.prototype._getUserData = function(cb) {
+  this.room.self().get(cb);
 };
 
 /**
@@ -192,7 +194,7 @@ UserColors.prototype._getUser = function(cb) {
  * @private
  */
 UserColors.prototype._setColor = function(color, cb) {
-  var key = this.userKey.key(colors.USER_PROPERTY);
+  var key = this.room.self().key(colors.USER_PROPERTY);
   key.set(color, function(err) {
     if (err) {
       return cb(err);
@@ -232,7 +234,7 @@ UserColors.prototype._acquireColor = function(cb) {
 
     // Do not overwrite the lock if another user just acquired it. If we do
     // acquire the lock, remove it when the user leaves the room.
-    var options = { overwrite: false, cascade: self.userKey };
+    var options = { overwrite: false, cascade: self.room.self() };
 
     key.set(self.user.id, options, function(err) {
       if (err instanceof goinstant.errors.CollisionError) {
