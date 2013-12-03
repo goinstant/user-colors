@@ -1,6 +1,6 @@
 {
   "name": "user-colors",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "user-colors",
   "main": "Gruntfile.js",
   "scripts": {

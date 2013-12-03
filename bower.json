@@ -1,7 +1,7 @@
 {
   "name": "goinstant-user-colors",
   "main": "dist/user-colors.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/goinstant/user-colors",
   "authors": [
     "GoInstant",
